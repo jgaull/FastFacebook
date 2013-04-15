@@ -34,12 +34,20 @@
 }
 
 - (void)showTweetView {
+    //NSLog(@"Presented view controller: %@", self.presentedViewController.class);
     SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-    tweetSheet.completionHandler = ^(SLComposeViewControllerResult result) {
-        [self showTweetView];
-    };
+    
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        tweetSheet.completionHandler = ^(SLComposeViewControllerResult result) {
+            [self dismissTweetView];
+        };
+    }
     
     [self presentViewController:tweetSheet animated:YES completion:nil];
+}
+
+- (void)dismissTweetView {
+    [self showTweetView];
 }
 
 - (void)regainFocus {
